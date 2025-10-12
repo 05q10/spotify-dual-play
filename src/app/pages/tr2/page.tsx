@@ -25,10 +25,26 @@ export default function Page() {
       name: "Pair 1"
     },
     {
-      track1: "/songs/ghafoor.mp3",
-      track2: "/songs/maujahimauja.mp3",
+      track1: "/songs/befikra.mp3",
+      track2: "/songs/saturdaysaturday.mp3",
       name: "Pair 2"
+    },
+     {
+      track1: "/songs/bomdiggy.mp3",
+      track2: "/songs/saudakharakhara.mp3",
+      name: "Pair 3"
+    },
+    {
+      track1: "/songs/whatjhumka.mp3",
+      track2: "/songs/tammatamma.mp3",
+      name: "Pair 4"
+    },
+    {
+      track1: "/songs/cholikepeeche.mp3",
+      track2: "/songs/aankhmaarey.mp3",
+      name: "Pair 5"
     }
+
   ]);
 
   // Available songs list
@@ -39,6 +55,11 @@ export default function Page() {
     "/songs/saturdaysaturday.mp3",
     "/songs/bomdiggy.mp3",
     "/songs/saudakharakhara.mp3",
+    "/songs/whatjhumka.mp3",
+    "/songs/tammatamma.mp3",
+    "/songs/cholikepeeche.mp3",
+    "/songs/aankhmaarey.mp3",
+
   ];
 
   const currentPair = songPairs[currentPairIndex];
@@ -128,7 +149,7 @@ export default function Page() {
             </div>
             <button
               onClick={() => setIsDark(!isDark)}
-              className={`p-2 rounded-full ${hoverBg} transition-all duration-200`}
+              className={`p-2 rounded-full ${hoverBg} transition-all duration-200 ${textPrimary}`}
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -136,10 +157,10 @@ export default function Page() {
           
           <button
             onClick={addNewPair}
-            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-2.5 lg:py-3 px-4 rounded-full hover:scale-105 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200 mb-4 lg:mb-6 flex items-center justify-center gap-2"
+            className={`${isDark ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700' : 'bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800'} text-white font-semibold py-2.5 lg:py-3 px-4 rounded-full hover:scale-105 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200 mb-4 lg:mb-6 flex items-center justify-center gap-2`}
           >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm lg:text-base">Create Pair</span>
+            <Plus className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <span className="text-sm lg:text-base text-white">Create Pair</span>
           </button>
 
           {/* Playlist */}
@@ -155,7 +176,7 @@ export default function Page() {
                   }}
                   className={`p-3 lg:p-4 rounded-xl cursor-pointer transition-all duration-200 ${
                     index === currentPairIndex
-                      ? `${isDark ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border-2 border-green-500/50' : 'bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-500'}`
+                      ? `${isDark ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border-2 border-green-500/50' : 'bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-500'} ${textPrimary}`
                       : `${hoverBg} border-2 border-transparent`
                   }`}
                 >
@@ -347,16 +368,16 @@ export default function Page() {
               {!isPlaying ? (
                 <button
                   onClick={playBoth}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200"
+                  className={`${isDark ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-green-600 to-emerald-700'} text-white rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200`}
                 >
-                  <Play className="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" />
+                  <Play className="w-5 h-5 lg:w-6 lg:h-6 text-white" fill="white" />
                 </button>
               ) : (
                 <button
                   onClick={pauseBoth}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200"
+                  className={`${isDark ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-green-600 to-emerald-700'} text-white rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg hover:shadow-green-500/50 transition-all duration-200`}
                 >
-                  <Pause className="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" />
+                  <Pause className="w-5 h-5 lg:w-6 lg:h-6 text-white" fill="white" />
                 </button>
               )}
               

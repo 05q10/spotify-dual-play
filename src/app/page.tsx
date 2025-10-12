@@ -38,6 +38,10 @@ export default function Page() {
     "/songs/saturdaysaturday.mp3",
     "/songs/bomdiggy.mp3",
     "/songs/saudakharakhara.mp3",
+    "/songs/whatjhumka.mp3",
+    "/songs/tammatamma.mp3",
+    "/songs/cholikepeeche.mp3",
+    "/songs/aankhmaarey.mp3",
 
     
     

@@ -2,28 +2,60 @@
 
 body {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  padding: 16px;
-  background: #fafafa;
-  color: #111;
+  padding: 0;
+  margin: 0;
 }
 
-input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  width: 100%;
+/* Remove default input styling to let Tailwind handle it */
+input[type="text"] {
+  padding: 0;
+  border: none;
+  background: transparent
+  
 }
 
+/* Only style range inputs */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Remove button default styles to let Tailwind handle it */
 button {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: white;
+  padding: 0;
+  border: none;
+  
+  font: inherit;
   cursor: pointer;
 }
 
 button:disabled {
-  opacity: 0.6;
   cursor: not-allowed;
 }
 
+/* Select dropdown styling */
+select {
+  cursor: pointer;
+}
