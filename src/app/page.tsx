@@ -1,103 +1,279 @@
-import Image from "next/image";
+"use client";
+import React, { useRef, useState, useEffect } from "react";
 
-export default function Home() {
+interface SongPair {
+  track1: string;
+  track2: string;
+  name: string;
+}
+
+export default function Page() {
+  const audio1 = useRef<HTMLAudioElement>(null);
+  const audio2 = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentPairIndex, setCurrentPairIndex] = useState<number>(0);
+  const [volume1, setVolume1] = useState<number>(0.7);
+  const [volume2, setVolume2] = useState<number>(0.7);
+  
+  // Define your song pairs here
+  const [songPairs, setSongPairs] = useState<SongPair[]>([
+    {
+      track1: "/songs/ghafoor.mp3",
+      track2: "/songs/maujahimauja.mp3",
+      name: "Pair 1"
+    },
+    {
+      track1: "/songs/ghafoor.mp3",
+      track2: "/songs/maujahimauja.mp3",
+      name: "Pair 2"
+    }
+    // Add more pairs as needed
+  ]);
+
+  // Available songs list (populate this with your actual songs)
+  const availableSongs: string[] = [
+    "/songs/ghafoor.mp3",
+    "/songs/maujahimauja.mp3",
+    "/songs/befikra.mp3",
+    "/songs/saturdaysaturday.mp3",
+    "/songs/bomdiggy.mp3",
+    "/songs/saudakharakhara.mp3",
+
+    
+    
+    // Add all your songs here
+  ];
+
+  const currentPair = songPairs[currentPairIndex];
+
+  // Update volume when changed
+  useEffect(() => {
+    if (audio1.current) audio1.current.volume = volume1;
+    if (audio2.current) audio2.current.volume = volume2;
+  }, [volume1, volume2]);
+
+  const playBoth = async () => {
+    if (!audio1.current || !audio2.current) return;
+
+    audio1.current.pause();
+    audio2.current.pause();
+    audio1.current.currentTime = 0;
+    audio2.current.currentTime = 0;
+
+    await Promise.all([audio1.current.load(), audio2.current.load()]);
+    
+    setTimeout(() => {
+      audio1.current?.play();
+      audio2.current?.play();
+      setIsPlaying(true);
+    }, 300);
+  };
+
+  const pauseBoth = () => {
+    audio1.current?.pause();
+    audio2.current?.pause();
+    setIsPlaying(false);
+  };
+
+  const nextPair = () => {
+    pauseBoth();
+    setCurrentPairIndex((prev) => (prev + 1) % songPairs.length);
+  };
+
+  const prevPair = () => {
+    pauseBoth();
+    setCurrentPairIndex((prev) => (prev - 1 + songPairs.length) % songPairs.length);
+  };
+
+  const addNewPair = () => {
+    setSongPairs([...songPairs, {
+      track1: availableSongs[0] || "",
+      track2: availableSongs[0] || "",
+      name: `Pair ${songPairs.length + 1}`
+    }]);
+  };
+
+  const updatePair = (index: number, field: keyof SongPair, value: string) => {
+    const newPairs: SongPair[] = [...songPairs];
+    newPairs[index] = { ...newPairs[index], [field]: value };
+    setSongPairs(newPairs);
+  };
+
+  const deletePair = (index: number) => {
+    if (songPairs.length <= 1) return;
+    const newPairs = songPairs.filter((_: SongPair, i: number) => i !== index);
+    setSongPairs(newPairs);
+    if (currentPairIndex >= newPairs.length) {
+      setCurrentPairIndex(newPairs.length - 1);
+    }
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 p-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-orange-600 mb-2">
+            🪔 Diwali Dual Song Player 🪔
+          </h1>
+          <p className="text-gray-600">Mix and match your favorite songs!</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Current Player */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+          <h2 className="text-2xl font-bold text-center mb-6 text-orange-500">
+            Now Playing: {currentPair.name}
+          </h2>
+          
+          <audio ref={audio1} src={currentPair.track1} preload="auto" />
+          <audio ref={audio2} src={currentPair.track2} preload="auto" />
+
+          {/* Song Display */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-orange-50 p-4 rounded-lg">
+              <p className="text-sm font-semibold text-orange-700 mb-2">Track 1</p>
+              <p className="text-xs text-gray-600 truncate">{currentPair.track1.split('/').pop()}</p>
+              <div className="mt-3">
+                <label className="text-xs text-gray-600">Volume: {Math.round(volume1 * 100)}%</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume1}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume1(parseFloat(e.target.value))}
+                  className="w-full mt-1"
+                />
+              </div>
+            </div>
+            <div className="bg-red-50 p-4 rounded-lg">
+              <p className="text-sm font-semibold text-red-700 mb-2">Track 2</p>
+              <p className="text-xs text-gray-600 truncate">{currentPair.track2.split('/').pop()}</p>
+              <div className="mt-3">
+                <label className="text-xs text-gray-600">Volume: {Math.round(volume2 * 100)}%</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume2}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume2(parseFloat(e.target.value))}
+                  className="w-full mt-1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Playback Controls */}
+          <div className="flex justify-center items-center gap-4 mb-4">
+            <button
+              onClick={prevPair}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition"
+            >
+              ⏮ Previous
+            </button>
+            {!isPlaying ? (
+              <button
+                onClick={playBoth}
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105"
+              >
+                ▶ Play Both
+              </button>
+            ) : (
+              <button
+                onClick={pauseBoth}
+                className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105"
+              >
+                ⏸ Pause Both
+              </button>
+            )}
+            <button
+              onClick={nextPair}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition"
+            >
+              Next ⏭
+            </button>
+          </div>
+
+          <p className="text-center text-sm text-gray-500">
+            Pair {currentPairIndex + 1} of {songPairs.length}
+          </p>
+        </div>
+
+        {/* Playlist Manager */}
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-orange-500">Manage Pairs</h2>
+            <button
+              onClick={addNewPair}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition"
+            >
+              + Add New Pair
+            </button>
+          </div>
+
+          <div className="space-y-4 max-h-96 overflow-y-auto">
+            {songPairs.map((pair: SongPair, index: number) => (
+              <div
+                key={index}
+                className={`border-2 rounded-lg p-4 ${
+                  index === currentPairIndex
+                    ? "border-orange-500 bg-orange-50"
+                    : "border-gray-200"
+                }`}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <input
+                    type="text"
+                    value={pair.name}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updatePair(index, "name", e.target.value)}
+                    className="font-semibold text-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-orange-300 rounded px-2"
+                    placeholder="Pair name"
+                  />
+                  <button
+                    onClick={() => deletePair(index)}
+                    disabled={songPairs.length <= 1}
+                    className="text-red-500 hover:text-red-700 font-bold disabled:opacity-30"
+                  >
+                    🗑️
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-gray-600 block mb-1">Track 1</label>
+                    <select
+                      value={pair.track1}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track1", e.target.value)}
+                      className="w-full text-sm border border-gray-300 rounded px-2 py-1"
+                    >
+                      {availableSongs.map((song: string) => (
+                        <option key={song} value={song}>
+                          {song.split('/').pop()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-600 block mb-1">Track 2</label>
+                    <select
+                      value={pair.track2}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track2", e.target.value)}
+                      className="w-full text-sm border border-gray-300 rounded px-2 py-1"
+                    >
+                      {availableSongs.map((song: string) => (
+                        <option key={song} value={song}>
+                          {song.split('/').pop()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
