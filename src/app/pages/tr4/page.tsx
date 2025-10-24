@@ -19,46 +19,88 @@ export default function Page() {
   
   // Define your song pairs here
   const [songPairs, setSongPairs] = useState<SongPair[]>([
-     {
-      track1: "/songs/ghafoor.mp3",
-      track2: "/songs/maujahimauja.mp3",
-      name: "Pair 1"
-    },
-    {
-      track1: "/songs/befikra.mp3",
-      track2: "/songs/saturdaysaturday.mp3",
-      name: "Pair 2"
-    },
-     {
-      track1: "/songs/bomdiggy.mp3",
-      track2: "/songs/saudakharakhara.mp3",
-      name: "Pair 3"
-    },
-    {
-      track1: "/songs/whatjhumka.mp3",
-      track2: "/songs/tammatamma.mp3",
-      name: "Pair 4"
-    },
-    {
-      track1: "/songs/cholikepeeche.mp3",
-      track2: "/songs/aankhmaarey.mp3",
-      name: "Pair 5"
-    }
-  ]);
+  { track1: "/songs/maujahimauja.mp3", track2: "/songs/whatjhumka.mp3", name: "Mauja Hi Mauja × What Jhumka" },
+  { track1: "/songs/TeriOre.mp3", track2: "/songs/Heeriye.mp3", name: "Teri Ore × Heeriye" },
+  { track1: "/songs/Tera_Hone_laga_hoon.mp3", track2: "/songs/Senorita.mp3", name: "Tera Hone Laga Hoon × Senorita" },
+  { track1: "/songs/Masakali.mp3", track2: "/songs/Chaleya.mp3", name: "Masakali × Chaleya" },
+  { track1: "/songs/TumSeHi.mp3", track2: "/songs/Raabta.mp3", name: "Tum Se Hi × Raabta" },
+  { track1: "/songs/AinvayiAinvayi.mp3", track2: "/songs/Kesariya.mp3", name: "Ainvayi Ainvayi × Kesariya" },
+  { track1: "/songs/DesiGirl.mp3", track2: "/songs/Ghungroo.mp3", name: "Desi Girl × Ghungroo" },
+  { track1: "/songs/SoniDeNakhre.mp3", track2: "/songs/LondonThumakda.mp3", name: "Soni De Nakhre × London Thumakda" },
+  { track1: "/songs/It'stheTimetoDisco.mp3", track2: "/songs/SoorajDoobaHain.mp3", name: "It’s The Time To Disco × Sooraj Dooba Hai" },
+  { track1: "/songs/Twist.mp3", track2: "/songs/Tainuleke.mp3", name: "Twist × Tainu Le Ke" },
+  { track1: "/songs/BadtameezDil.mp3", track2: "/songs/GallanGoodiyaan.mp3", name: "Badtameez Dil × Gallan Goodiyan" },
+  { track1: "/songs/SubhaHoneNaDe.mp3", track2: "/songs/CocaCola.mp3", name: "Subha Hone Na De × Coca Cola" },
+  { track1: "/songs/latlaggayee.mp3", track2: "/songs/Heeriye.mp3", name: "Lat Lag Gayi × Heeriye" },
+  { track1: "/songs/Kala Chashma.mp3", track2: "/songs/TammaTamma.mp3", name: "Kala Chashma × Tamma Tamma" },
+  { track1: "/songs/Malhari.mp3", track2: "/songs/SherKhulGaye.mp3", name: "Malhari × Sher Khul Gaye" },
+  { track1: "/songs/Tum_hi_ho.mp3", track2: "/songs/Apna_Bana_Le.mp3", name: "Tum Hi Ho × Apna Bana Le" },
+  { track1: "/songs/Khalibali.mp3", track2: "/songs/Ranjha.mp3", name: "Khalibali × Ranjha" },
+  { track1: "/songs/RamChaheLeela.mp3", track2: "/songs/Bebo.mp3", name: "Ram Chahe Leela × Bebo" },
+  { track1: "/songs/ChikniChameli.mp3", track2: "/songs/Saudakharakhara.mp3", name: "Chikni Chameli × Sauda Khara Khara" },
+  { track1: "/songs/Befikra.mp3", track2: "/songs/saturdaysaturday.mp3", name: "Befikra × Saturday Saturday" },
+  { track1: "/songs/It'stheTimetoDisco.mp3", track2: "/songs/Where'sthePartyTonight.mp3", name: "It’s The Time To Disco × Where’s The Party Tonight" },
+  { track1: "/songs/DolaReDola.mp3", track2: "/songs/Ghungroo.mp3", name: "Dola Re Dola × Ghungroo" },
+  { track1: "/songs/IkVaariAa.mp3", track2: "/songs/Kesariya.mp3", name: "Ik Vaari Aa × Kesariya" },
+  { track1: "/songs/TeraBanJaunga.mp3", track2: "/songs/Tum_hi_ho.mp3", name: "Tera Ban Jaunga × Tum Hi Ho" },
+  { track1: "/songs/BomDiggy.mp3", track2: "/songs/ghafoor.mp3", name: "Bom Diggy × Ghafoor" },
+]);
+
 
   // Available songs list
   const availableSongs: string[] = [
-     "/songs/ghafoor.mp3",
-    "/songs/maujahimauja.mp3",
-    "/songs/befikra.mp3",
-    "/songs/saturdaysaturday.mp3",
-    "/songs/bomdiggy.mp3",
-    "/songs/saudakharakhara.mp3",
-    "/songs/whatjhumka.mp3",
-    "/songs/tammatamma.mp3",
-    "/songs/cholikepeeche.mp3",
-    "/songs/aankhmaarey.mp3",
-  ];
+  "/songs/aankhmaarey.mp3",
+  "/songs/AinvayiAinvayi.mp3",
+  "/songs/Apna_Bana_Le.mp3",
+  "/songs/BabyKoBassPasandHai.mp3",
+  "/songs/BadtameezDil.mp3",
+  "/songs/Bebo.mp3",
+  "/songs/befikra.mp3",
+  "/songs/bomdiggy.mp3",
+  "/songs/Chaleya.mp3",
+  "/songs/ChammakChallo.mp3",
+  "/songs/ChikniChameli.mp3",
+  "/songs/cholikepeeche.mp3",
+  "/songs/CocaCola.mp3",
+  "/songs/DesiGirl.mp3",
+  "/songs/DolaReDola.mp3",
+  "/songs/GallanGoodiyaan.mp3",
+  "/songs/ghafoor.mp3",
+  "/songs/Ghungroo.mp3",
+  "/songs/Heeriye.mp3",
+  "/songs/IkVaariAa.mp3",
+  "/songs/It'stheTimetoDisco.mp3",
+  "/songs/Kala Chashma.mp3",
+  "/songs/Kesariya.mp3",
+  "/songs/Khalibali.mp3",
+  "/songs/latlaggayee.mp3",
+  "/songs/LondonThumakda.mp3",
+  "/songs/Malhari.mp3",
+  "/songs/Masakali.mp3",
+  "/songs/maujahimauja.mp3",
+  "/songs/Raabta.mp3",
+  "/songs/RamChaheLeela.mp3",
+  "/songs/Ranjha.mp3",
+  "/songs/saturdaysaturday.mp3",
+  "/songs/saudakharakhara.mp3",
+  "/songs/Senorita.mp3",
+  "/songs/Sheilakijawani.mp3",
+  "/songs/SherKhulGaye.mp3",
+  "/songs/SoniDeNakhre.mp3",
+  "/songs/SoorajDoobaHain.mp3",
+  "/songs/SubhaHoneNaDe.mp3",
+  "/songs/Tainuleke.mp3",
+  "/songs/tammatamma.mp3",
+  "/songs/TeraBanJaunga.mp3",
+  "/songs/Tera_Hone_laga_hoon.mp3",
+  "/songs/TeriOre.mp3",
+  "/songs/TumSeHi.mp3",
+  "/songs/Tum_hi_ho.mp3",
+  "/songs/Twist.mp3",
+  "/songs/whatjhumka.mp3",
+  "/songs/Where'sthePartyTonight.mp3",
+];
+
 
   const currentPair = songPairs[currentPairIndex];
 
@@ -75,7 +117,7 @@ export default function Page() {
     audio2.current.pause();
     audio1.current.currentTime = 0;
     audio2.current.currentTime = 0;
-
+    
     await Promise.all([audio1.current.load(), audio2.current.load()]);
     
     setTimeout(() => {
