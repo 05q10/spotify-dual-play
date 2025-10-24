@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+import { Moon, Sun, Plus, Trash2, Play, Pause, SkipBack, SkipForward, Music } from "lucide-react";
 
 interface SongPair {
   track1: string;
@@ -14,39 +15,94 @@ export default function Page() {
   const [currentPairIndex, setCurrentPairIndex] = useState<number>(0);
   const [volume1, setVolume1] = useState<number>(0.7);
   const [volume2, setVolume2] = useState<number>(0.7);
+  const [isDark, setIsDark] = useState<boolean>(true);
   
   // Define your song pairs here
   const [songPairs, setSongPairs] = useState<SongPair[]>([
-    {
-      track1: "/songs/ghafoor.mp3",
-      track2: "/songs/maujahimauja.mp3",
-      name: "Pair 1"
-    },
-    {
-      track1: "/songs/ghafoor.mp3",
-      track2: "/songs/maujahimauja.mp3",
-      name: "Pair 2"
-    }
-    // Add more pairs as needed
-  ]);
+  { track1: "/songs/ghafoor.mp3", track2: "/songs/maujahimauja.mp3", name: "Ghafoor x Mauja Hi Mauja" },
+  { track1: "/songs/befikra.mp3", track2: "/songs/saturdaysaturday.mp3", name: "Befikra x Saturday Saturday" },
+  { track1: "/songs/bomdiggy.mp3", track2: "/songs/saudakharakhara.mp3", name: "Bom Diggy x Sauda Khara Khara" },
+  { track1: "/songs/whatjhumka.mp3", track2: "/songs/tammatamma.mp3", name: "What Jhumka x Tamma Tamma" },
+  { track1: "/songs/cholikepeeche.mp3", track2: "/songs/aankhmaarey.mp3", name: "Choli Ke Peeche x Aankh Maarey" },
+  { track1: "/songs/Chaleya.mp3", track2: "/songs/TeraBanJaunga.mp3", name: "Chaleya x Tera Ban Jaunga" },
+  { track1: "/songs/ChammakChallo.mp3", track2: "/songs/Senorita.mp3", name: "Chammak Challo x Senorita" },
+  { track1: "/songs/ChikniChameli.mp3", track2: "/songs/Sheilakijawani.mp3", name: "Chikni Chameli x Sheila Ki Jawani" },
+  { track1: "/songs/Khalibali.mp3", track2: "/songs/Malhari.mp3", name: "Khalibali x Malhari" },
+  { track1: "/songs/BadtameezDil.mp3", track2: "/songs/latlaggayee.mp3", name: "Badtameez Dil x Lat Lag Gayi" },
+  { track1: "/songs/BabyKoBassPasandHai.mp3", track2: "/songs/LondonThumakda.mp3", name: "Baby Ko Bass Pasand Hai x London Thumakda" },
+  { track1: "/songs/DesiGirl.mp3", track2: "/songs/CocaCola.mp3", name: "Desi Girl x Coca Cola" },
+  { track1: "/songs/Kesariya.mp3", track2: "/songs/Ranjha.mp3", name: "Kesariya x Ranjha" },
+  { track1: "/songs/Heeriye.mp3", track2: "/songs/Raabta.mp3", name: "Heeriye x Raabta" },
+  { track1: "/songs/Tera_Hone_laga_hoon.mp3", track2: "/songs/Tum_hi_ho.mp3", name: "Tera Hone Laga Hoon x Tum Hi Ho" },
+  { track1: "/songs/TumSeHi.mp3", track2: "/songs/Tainuleke.mp3", name: "Tum Se Hi x Tainu Le Ke" },
+  { track1: "/songs/It'stheTimetoDisco.mp3", track2: "/songs/Where'sthePartyTonight.mp3", name: "It’s the Time to Disco x Where’s the Party Tonight" },
+  { track1: "/songs/Kala Chashma.mp3", track2: "/songs/SoniDeNakhre.mp3", name: "Kala Chashma x Soni De Nakhre" },
+  { track1: "/songs/SubhaHoneNaDe.mp3", track2: "/songs/SoorajDoobaHain.mp3", name: "Subha Hone Na De x Sooraj Dooba Hain" },
+  { track1: "/songs/Masakali.mp3", track2: "/songs/Twist.mp3", name: "Masakali x Twist" },
+  { track1: "/songs/DolaReDola.mp3", track2: "/songs/RamChaheLeela.mp3", name: "Dola Re Dola x Ram Chahe Leela" },
+  { track1: "/songs/Ghungroo.mp3", track2: "/songs/GallanGoodiyaan.mp3", name: "Ghungroo x Gallan Goodiyaan" },
+  { track1: "/songs/IkVaariAa.mp3", track2: "/songs/Apna_Bana_Le.mp3", name: "Ik Vaari Aa x Apna Bana Le" },
+  { track1: "/songs/TeriOre.mp3", track2: "/songs/Bebo.mp3", name: "Teri Ore x Bebo" },
+  { track1: "/songs/AinvayiAinvayi.mp3", track2: "/songs/SherKhulGaye.mp3", name: "Ainvayi Ainvayi x Sher Khul Gaye" },
+]);
 
-  // Available songs list (populate this with your actual songs)
+
+
+
+  // Available songs list
   const availableSongs: string[] = [
-    "/songs/ghafoor.mp3",
-    "/songs/maujahimauja.mp3",
-    "/songs/befikra.mp3",
-    "/songs/saturdaysaturday.mp3",
-    "/songs/bomdiggy.mp3",
-    "/songs/saudakharakhara.mp3",
-    "/songs/whatjhumka.mp3",
-    "/songs/tammatamma.mp3",
-    "/songs/cholikepeeche.mp3",
-    "/songs/aankhmaarey.mp3",
+  "/songs/aankhmaarey.mp3",
+  "/songs/AinvayiAinvayi.mp3",
+  "/songs/Apna_Bana_Le.mp3",
+  "/songs/BabyKoBassPasandHai.mp3",
+  "/songs/BadtameezDil.mp3",
+  "/songs/Bebo.mp3",
+  "/songs/befikra.mp3",
+  "/songs/bomdiggy.mp3",
+  "/songs/Chaleya.mp3",
+  "/songs/ChammakChallo.mp3",
+  "/songs/ChikniChameli.mp3",
+  "/songs/cholikepeeche.mp3",
+  "/songs/CocaCola.mp3",
+  "/songs/DesiGirl.mp3",
+  "/songs/DolaReDola.mp3",
+  "/songs/GallanGoodiyaan.mp3",
+  "/songs/ghafoor.mp3",
+  "/songs/Ghungroo.mp3",
+  "/songs/Heeriye.mp3",
+  "/songs/IkVaariAa.mp3",
+  "/songs/It'stheTimetoDisco.mp3",
+  "/songs/Kala Chashma.mp3",
+  "/songs/Kesariya.mp3",
+  "/songs/Khalibali.mp3",
+  "/songs/latlaggayee.mp3",
+  "/songs/LondonThumakda.mp3",
+  "/songs/Malhari.mp3",
+  "/songs/Masakali.mp3",
+  "/songs/maujahimauja.mp3",
+  "/songs/Raabta.mp3",
+  "/songs/RamChaheLeela.mp3",
+  "/songs/Ranjha.mp3",
+  "/songs/saturdaysaturday.mp3",
+  "/songs/saudakharakhara.mp3",
+  "/songs/Senorita.mp3",
+  "/songs/Sheilakijawani.mp3",
+  "/songs/SherKhulGaye.mp3",
+  "/songs/SoniDeNakhre.mp3",
+  "/songs/SoorajDoobaHain.mp3",
+  "/songs/SubhaHoneNaDe.mp3",
+  "/songs/Tainuleke.mp3",
+  "/songs/tammatamma.mp3",
+  "/songs/TeraBanJaunga.mp3",
+  "/songs/Tera_Hone_laga_hoon.mp3",
+  "/songs/TeriOre.mp3",
+  "/songs/TumSeHi.mp3",
+  "/songs/Tum_hi_ho.mp3",
+  "/songs/Twist.mp3",
+  "/songs/whatjhumka.mp3",
+  "/songs/Where'sthePartyTonight.mp3",
+];
 
-    
-    
-    // Add all your songs here
-  ];
 
   const currentPair = songPairs[currentPairIndex];
 
@@ -63,7 +119,7 @@ export default function Page() {
     audio2.current.pause();
     audio1.current.currentTime = 0;
     audio2.current.currentTime = 0;
-
+    
     await Promise.all([audio1.current.load(), audio2.current.load()]);
     
     setTimeout(() => {
@@ -112,169 +168,309 @@ export default function Page() {
     }
   };
 
+  const bgClass = isDark ? "bg-gradient-to-br from-gray-900 via-black to-gray-900" : "bg-gradient-to-br from-gray-50 via-white to-gray-100";
+  const cardBg = isDark ? "bg-gray-800/50 backdrop-blur-xl" : "bg-white/80 backdrop-blur-xl";
+  const textPrimary = isDark ? "text-white" : "text-gray-900";
+  const textSecondary = isDark ? "text-gray-400" : "text-gray-600";
+  const borderColor = isDark ? "border-gray-700" : "border-gray-200";
+  const hoverBg = isDark ? "hover:bg-gray-700/50" : "hover:bg-gray-100";
+  const inputBg = isDark ? "bg-gray-900/50 border-gray-700" : "bg-white border-gray-300";
+  const sidebarBg = isDark ? "bg-gray-900/95 backdrop-blur-xl" : "bg-white/95 backdrop-blur-xl";
+  const playerBarBg = isDark ? "bg-gray-900/98 backdrop-blur-xl border-gray-800" : "bg-white/98 backdrop-blur-xl border-gray-200";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-orange-600 mb-2">
-            🪔 Diwali Dual Song Player 🪔
-          </h1>
-          <p className="text-gray-600">Mix and match your favorite songs!</p>
-        </div>
-
-        {/* Current Player */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-center mb-6 text-orange-500">
-            Now Playing: {currentPair.name}
-          </h2>
+    <div className={`min-h-screen ${bgClass} ${textPrimary} transition-colors duration-300`}>
+      {/* Main Container */}
+      <div className="flex flex-col lg:flex-row min-h-screen pb-24 lg:pb-28">
+        {/* Sidebar */}
+        <div className={`w-full lg:w-72 ${sidebarBg} p-4 lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r ${borderColor}`}>
+          <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <div>
+              <h1 className={`text-xl lg:text-2xl font-bold ${textPrimary}`}>Dual Player</h1>
+              <p className={`text-xs lg:text-sm ${textSecondary}`}>Mix your tracks</p>
+            </div>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className={`p-2 rounded-full ${hoverBg} transition-all duration-200`}
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-900" />
+              )}
+            </button>
+          </div>
           
-          <audio ref={audio1} src={currentPair.track1} preload="auto" />
-          <audio ref={audio2} src={currentPair.track2} preload="auto" />
+       <button
+  onClick={addNewPair}
+  className={`font-semibold py-2.5 lg:py-3 px-4 rounded-full 
+             hover:scale-105 transition-all duration-200 mb-4 lg:mb-6 flex items-center justify-center gap-2
+             bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/40
+             ${isDark ? 'text-white' : 'text-green-900'}`}
+>
+  <Plus className={`w-4 h-4 ${isDark ? 'text-white' : 'text-green-900'}`} strokeWidth={2.5} />
+  <span className="text-sm lg:text-base">Create Pair</span>
+</button>
 
-          {/* Song Display */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-orange-50 p-4 rounded-lg">
-              <p className="text-sm font-semibold text-orange-700 mb-2">Track 1</p>
-              <p className="text-xs text-gray-600 truncate">{currentPair.track1.split('/').pop()}</p>
-              <div className="mt-3">
-                <label className="text-xs text-gray-600">Volume: {Math.round(volume1 * 100)}%</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume1}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume1(parseFloat(e.target.value))}
-                  className="w-full mt-1"
-                />
-              </div>
-            </div>
-            <div className="bg-red-50 p-4 rounded-lg">
-              <p className="text-sm font-semibold text-red-700 mb-2">Track 2</p>
-              <p className="text-xs text-gray-600 truncate">{currentPair.track2.split('/').pop()}</p>
-              <div className="mt-3">
-                <label className="text-xs text-gray-600">Volume: {Math.round(volume2 * 100)}%</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume2}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume2(parseFloat(e.target.value))}
-                  className="w-full mt-1"
-                />
-              </div>
+
+
+
+
+
+
+          {/* Playlist */}
+          <div className="flex-1 overflow-y-auto">
+            <h2 className={`text-xs lg:text-sm font-bold ${textSecondary} mb-3 uppercase tracking-wider`}>Your Pairs</h2>
+            <div className="space-y-2">
+              {songPairs.map((pair: SongPair, index: number) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    pauseBoth();
+                    setCurrentPairIndex(index);
+                  }}
+                  className={`p-3 lg:p-4 rounded-xl cursor-pointer transition-all duration-200 ${
+                    index === currentPairIndex
+                      ? `${isDark ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border-2 border-green-500/50' : 'bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-500'}`
+                      : `${hoverBg} border-2 border-transparent`
+                  }`}
+                >
+                  <p className={`font-semibold text-sm lg:text-base truncate ${textPrimary}`}>{pair.name}</p>
+                  <p className={`text-xs ${textSecondary}`}>2 tracks</p>
+                </div>
+              ))}
             </div>
           </div>
-
-          {/* Playback Controls */}
-          <div className="flex justify-center items-center gap-4 mb-4">
-            <button
-              onClick={prevPair}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition"
-            >
-              ⏮ Previous
-            </button>
-            {!isPlaying ? (
-              <button
-                onClick={playBoth}
-                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105"
-              >
-                ▶ Play Both
-              </button>
-            ) : (
-              <button
-                onClick={pauseBoth}
-                className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105"
-              >
-                ⏸ Pause Both
-              </button>
-            )}
-            <button
-              onClick={nextPair}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition"
-            >
-              Next ⏭
-            </button>
-          </div>
-
-          <p className="text-center text-sm text-gray-500">
-            Pair {currentPairIndex + 1} of {songPairs.length}
-          </p>
         </div>
 
-        {/* Playlist Manager */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-orange-500">Manage Pairs</h2>
-            <button
-              onClick={addNewPair}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition"
-            >
-              + Add New Pair
-            </button>
+        {/* Main Content */}
+        <div className="flex-1 overflow-y-auto px-4 lg:px-8">
+          {/* Header */}
+          <div className="py-6 lg:py-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 lg:gap-6">
+              <div className={`w-32 h-32 sm:w-40 sm:h-40 lg:w-56 lg:h-56 bg-gradient-to-br ${isDark ? 'from-purple-600 via-pink-600 to-blue-600' : 'from-purple-400 via-pink-400 to-blue-400'} rounded-2xl shadow-2xl flex items-center justify-center flex-shrink-0 hover:scale-105 transition-transform duration-300`}>
+                <Music className="w-16 h-16 lg:w-24 lg:h-24 text-white/90" />
+              </div>
+              <div className="text-center sm:text-left flex-1">
+                <p className="text-xs font-bold uppercase tracking-wider mb-2 lg:mb-3 bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Dual Track Mix</p>
+                <h1 className={`text-3xl sm:text-4xl lg:text-6xl font-bold mb-2 lg:mb-4 ${isDark ? 'bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent' : 'text-gray-900'}`}>{currentPair.name}</h1>
+                <p className={`text-xs lg:text-sm ${textSecondary}`}>2 tracks • Mixed playback</p>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4 max-h-96 overflow-y-auto">
-            {songPairs.map((pair: SongPair, index: number) => (
-              <div
-                key={index}
-                className={`border-2 rounded-lg p-4 ${
-                  index === currentPairIndex
-                    ? "border-orange-500 bg-orange-50"
-                    : "border-gray-200"
-                }`}
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <input
-                    type="text"
-                    value={pair.name}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updatePair(index, "name", e.target.value)}
-                    className="font-semibold text-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-orange-300 rounded px-2"
-                    placeholder="Pair name"
-                  />
-                  <button
-                    onClick={() => deletePair(index)}
-                    disabled={songPairs.length <= 1}
-                    className="text-red-500 hover:text-red-700 font-bold disabled:opacity-30"
-                  >
-                    🗑️
-                  </button>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs text-gray-600 block mb-1">Track 1</label>
-                    <select
-                      value={pair.track1}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track1", e.target.value)}
-                      className="w-full text-sm border border-gray-300 rounded px-2 py-1"
-                    >
-                      {availableSongs.map((song: string) => (
-                        <option key={song} value={song}>
-                          {song.split('/').pop()}
-                        </option>
-                      ))}
-                    </select>
+          {/* Track List */}
+          <div className="pb-6">
+            <div className="mb-4 lg:mb-6">
+              <div className={`hidden sm:grid grid-cols-12 gap-4 px-4 text-xs font-semibold border-b pb-3 mb-2 ${textSecondary}`} style={{borderColor: isDark ? '#374151' : '#e5e7eb'}}>
+                <div className="col-span-1">#</div>
+                <div className="col-span-5">TITLE</div>
+                <div className="col-span-6">VOLUME</div>
+              </div>
+            </div>
+
+            <div className="space-y-3 lg:space-y-4">
+              <div className={`${cardBg} rounded-xl p-4 lg:p-5 shadow-lg hover:shadow-xl transition-all duration-200 border ${borderColor}`}>
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
+                  <div className={`hidden sm:block sm:col-span-1 font-medium ${textSecondary}`}>1</div>
+                  <div className="sm:col-span-11 lg:col-span-5 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="sm:hidden text-xs font-bold text-green-500">Track 1</span>
+                    </div>
+                    <p className={`font-semibold text-sm lg:text-base ${textPrimary}`}>{currentPair.track1.split('/').pop()}</p>
+                    <p className={`text-xs ${textSecondary} hidden sm:block`}>Track 1</p>
                   </div>
-                  <div>
-                    <label className="text-xs text-gray-600 block mb-1">Track 2</label>
-                    <select
-                      value={pair.track2}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track2", e.target.value)}
-                      className="w-full text-sm border border-gray-300 rounded px-2 py-1"
-                    >
-                      {availableSongs.map((song: string) => (
-                        <option key={song} value={song}>
-                          {song.split('/').pop()}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="sm:col-span-12 lg:col-span-6 flex items-center gap-3">
+                    <span className={`text-xs font-medium ${textSecondary} w-10`}>{Math.round(volume1 * 100)}%</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume1}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume1(parseFloat(e.target.value))}
+                      className="flex-1 h-2 rounded-full appearance-none cursor-pointer transition-all"
+                      style={{
+                        background: `linear-gradient(to right, #10b981 0%, #10b981 ${volume1 * 100}%, ${isDark ? '#374151' : '#d1d5db'} ${volume1 * 100}%, ${isDark ? '#374151' : '#d1d5db'} 100%)`
+                      }}
+                    />
                   </div>
                 </div>
               </div>
-            ))}
+
+              <div className={`${cardBg} rounded-xl p-4 lg:p-5 shadow-lg hover:shadow-xl transition-all duration-200 border ${borderColor}`}>
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
+                  <div className={`hidden sm:block sm:col-span-1 font-medium ${textSecondary}`}>2</div>
+                  <div className="sm:col-span-11 lg:col-span-5 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="sm:hidden text-xs font-bold text-emerald-500">Track 2</span>
+                    </div>
+                    <p className={`font-semibold text-sm lg:text-base ${textPrimary}`}>{currentPair.track2.split('/').pop()}</p>
+                    <p className={`text-xs ${textSecondary} hidden sm:block`}>Track 2</p>
+                  </div>
+                  <div className="sm:col-span-12 lg:col-span-6 flex items-center gap-3">
+                    <span className={`text-xs font-medium ${textSecondary} w-10`}>{Math.round(volume2 * 100)}%</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume2}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setVolume2(parseFloat(e.target.value))}
+                      className="flex-1 h-2 rounded-full appearance-none cursor-pointer transition-all"
+                      style={{
+                        background: `linear-gradient(to right, #10b981 0%, #10b981 ${volume2 * 100}%, ${isDark ? '#374151' : '#d1d5db'} ${volume2 * 100}%, ${isDark ? '#374151' : '#d1d5db'} 100%)`
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Manage Pairs Section */}
+          <div className="py-6 lg:py-8">
+            <h2 className={`text-xl lg:text-2xl font-bold mb-4 lg:mb-6 ${textPrimary}`}>Manage Pairs</h2>
+            <div className="space-y-3 lg:space-y-4">
+              {songPairs.map((pair: SongPair, index: number) => (
+                <div
+                  key={index}
+                  className={`${cardBg} rounded-xl p-4 lg:p-5 shadow-lg border-2 transition-all duration-200 ${
+                    index === currentPairIndex ? 'border-green-500 shadow-green-500/20' : borderColor
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-3 lg:mb-4 gap-2">
+                    <input
+                      type="text"
+                      value={pair.name}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => updatePair(index, "name", e.target.value)}
+                      className={`font-semibold text-base lg:text-lg bg-transparent border-0 focus:outline-none focus:ring-0 flex-1 ${textPrimary}`}
+                      placeholder="Pair name"
+                    />
+                    <button
+                      onClick={() => deletePair(index)}
+                      disabled={songPairs.length <= 1}
+                      className={`hover:text-red-500 disabled:opacity-30 transition-colors duration-200 p-2 rounded-lg ${hoverBg} ${textSecondary}`}
+                    >
+                      <Trash2 className="w-4 h-4 lg:w-5 lg:h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+                    <div>
+                      <label className={`text-xs ${textSecondary} block mb-1.5 font-medium`}>Track 1</label>
+                      <select
+                        value={pair.track1}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track1", e.target.value)}
+                        className={`w-full text-sm ${inputBg} border rounded-lg px-3 py-2.5 ${textPrimary} focus:outline-none focus:ring-2 focus:ring-green-500 transition-all`}
+                      >
+                        {availableSongs.map((song: string) => (
+                          <option key={song} value={song}>
+                            {song.split('/').pop()}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className={`text-xs ${textSecondary} block mb-1.5 font-medium`}>Track 2</label>
+                      <select
+                        value={pair.track2}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updatePair(index, "track2", e.target.value)}
+                        className={`w-full text-sm ${inputBg} border rounded-lg px-3 py-2.5 ${textPrimary} focus:outline-none focus:ring-2 focus:ring-green-500 transition-all`}
+                      >
+                        {availableSongs.map((song: string) => (
+                          <option key={song} value={song}>
+                            {song.split('/').pop()}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Player Bar */}
+      <div className={`fixed bottom-0 left-0 right-0 ${playerBarBg} border-t px-3 lg:px-6 py-3 lg:py-4 shadow-2xl`}>
+        <audio ref={audio1} src={currentPair.track1} preload="auto" />
+        <audio ref={audio2} src={currentPair.track2} preload="auto" />
+        
+        <div className="flex items-center justify-between max-w-screen-2xl mx-auto gap-2 lg:gap-4">
+          {/* Current Track Info */}
+          <div className="flex items-center gap-2 lg:gap-4 flex-1 min-w-0">
+            <div className={`w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-br ${isDark ? 'from-purple-600 to-blue-600' : 'from-purple-400 to-blue-400'} rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg`}>
+              <Music className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
+            </div>
+            <div className="min-w-0 hidden sm:block">
+              <p className={`font-semibold truncate text-sm lg:text-base ${textPrimary}`}>{currentPair.name}</p>
+              <p className={`text-xs ${textSecondary}`}>Dual Track Mix</p>
+            </div>
+          </div>
+
+          {/* Player Controls */}
+          <div className="flex flex-col items-center gap-1 lg:gap-2">
+            <div className="flex items-center gap-2 lg:gap-4">
+              <button
+                onClick={prevPair}
+                className={`${isDark ? 'text-gray-400 hover:text-green-500' : 'text-gray-600 hover:text-green-600'} transition-all duration-200 p-1.5 lg:p-2 rounded-full ${hoverBg}`}
+              >
+                <SkipBack className="w-4 h-4 lg:w-5 lg:h-5" />
+              </button>
+              
+              {!isPlaying ? (
+  <button
+    onClick={playBoth}
+    className={`rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg transition-all duration-200
+      ${isDark
+        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-green-500/50'
+        : 'bg-gray-900 hover:shadow-gray-900/50'
+      }`}
+  >
+    <Play
+      className={`w-5 h-5 lg:w-6 lg:h-6 ${isDark ? 'text-white' : 'text-white'}`}
+      fill="currentColor"
+      color={isDark ? '#ffffff' : '#ffffff'}
+    />
+  </button>
+) : (
+  <button
+    onClick={pauseBoth}
+    className={`rounded-full p-2.5 lg:p-3 hover:scale-110 hover:shadow-lg transition-all duration-200
+      ${isDark
+        ? '!bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-green-500/50'
+        : '!bg-gray-900 hover:shadow-gray-900/50'
+      }`}
+  >
+    <Pause
+      className={`w-5 h-5 lg:w-6 lg:h-6 ${isDark ? 'text-white' : 'text-white'}`}
+      fill="currentColor"
+      color={isDark ? '#ffffff' : '#ffffff'}
+    />
+  </button>
+)}
+
+
+              
+              <button
+                onClick={nextPair}
+                className={`${isDark ? 'text-gray-400 hover:text-green-500' : 'text-gray-600 hover:text-green-600'} transition-all duration-200 p-1.5 lg:p-2 rounded-full ${hoverBg}`}
+              >
+                <SkipForward className="w-4 h-4 lg:w-5 lg:h-5" />
+              </button>
+            </div>
+            <div className={`text-xs ${textSecondary}`}>
+              {currentPairIndex + 1} / {songPairs.length}
+            </div>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex-1 flex justify-end">
+            <div className={`text-xs ${textSecondary} hidden md:block`}>
+              Dual playback
+            </div>
           </div>
         </div>
       </div>
